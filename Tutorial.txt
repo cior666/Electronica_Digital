@@ -1,0 +1,15 @@
+cd -> Cambiar Directorio
+Crear Carpeta por Ejercicio.
+
+apio init --board edu-cia-fpga -> Declara que placa usas
+apio init --top-module -> Declara a un archivo como Top module -> Para simular / Ejecutar
+apio verify -> Checkear sintaxis
+apio sim -> Ejecuta el (NombreArchivo)_tb.v -> Tests
+apio build -> 
+apio upload -> Para subirlo a la placa
+
+
+//COPILOT
+
+CLIP-> Agregar Contexto
+ctrl + i -> Pedir algo en la linea
