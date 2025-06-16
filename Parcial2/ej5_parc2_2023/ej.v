@@ -14,7 +14,7 @@ reg [1:0] state, next_state; // Corrige el tamaño a 2 bits si tienes 3 estados
 // Actualiza el estado en cada flanco de subida del reloj
 always @(posedge clk or posedge reset) begin
     if(reset)
-        state<=0
+        state<=S0;
     else 
         state <= next_state;
 end
