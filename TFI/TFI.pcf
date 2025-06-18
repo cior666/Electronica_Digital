@@ -1,0 +1,17 @@
+# Salidas a los LEDs (deben coincidir con el nombre en Verilog)
+set_io --warn-no-port leds[3] 4
+set_io --warn-no-port leds[2] 3
+set_io --warn-no-port leds[1] 2
+set_io --warn-no-port leds[0] 1
+
+# Entradas de sensores (simuladas con pulsadores)
+set_io -nowarn btn_a 31  # input
+set_io -nowarn btn_b 32  # input
+
+# Reset (puedes usar otro botón si lo deseas)
+set_io rst 33    # BTN[2]
+
+# Reloj (ajusta según el pinout de tu placa)
+set_io clk 21    # CLK_IN (pin 21 físico en la FPGA)
+
+
