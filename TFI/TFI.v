@@ -94,7 +94,7 @@ module contador_vehiculos(
     input wire rst,
     input wire inc, // pulso de ingreso
     input wire dec, // pulso de egreso
-    output reg [2:0] count
+    output reg [6:0] count
 );
     always @(posedge clk or posedge rst) begin
         if (rst)
