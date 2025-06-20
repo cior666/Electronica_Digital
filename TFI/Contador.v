@@ -8,13 +8,13 @@ module contar_autos(
 );
 
 always @(posedge clk or posedge reset) begin
-    if(reset)
-    count<=7'b0; //reiniciamos a 0
+    if (reset)
+        espacio <= 7'b0; // reiniciamos a 0
     else begin
-        if(entrada and !salida and espacio<7) //sumamos por entrada
-        espacio<=espacio+1;
-        else if(salida and !entrada and espacio>0) //restamos por salida
-        espacio<=espacio-1;
+        if (entrada && !salida && espacio < 7) // sumamos por entrada
+            espacio <= espacio + 1;
+        else if (salida && !entrada && espacio > 0) // restamos por salida
+            espacio <= espacio - 1;
     end
 end
 endmodule

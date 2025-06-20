@@ -20,7 +20,7 @@ module detector(
     input wire botonA,
     input wire botonB,
     output reg entrada,
-    output reg salida,
+    output reg salida
 );
 
 localparam S0=2'b00; //no detectamos pulsos
@@ -39,36 +39,38 @@ begin
 end
 
 always @* begin
-    entrada=0;
-    salida=0;
+    entrada = 0;
+    salida = 0;
+    nextstate = state;
     case(state)
     S0: begin
         if({botonA,botonB}==2'b10)
-           nextstate=S1;//posible entrada
+           nextstate = S1; // posible entrada
         else if({botonA,botonB}==2'b01)
-            nextstate=S3;//posible salida
+            nextstate = S3; // posible salida
     end
     S1: begin
         if ({botonA,botonB}==2'b11)
-            nextstate=S2;//posible entrada
-        else if({botonA,botonB}==2'b00)
-            nextstate=S0;//confirmamos salida
-            salida=1;//aumentamos contador
+            nextstate = S2; // posible entrada
+        else if({botonA,botonB}==2'b00) begin
+            nextstate = S0; // confirmamos salida
+            salida = 1; // aumentamos contador
+        end
     end
     S2: begin
         if({botonA,botonB}==2'b01)
-            nextstate=S3;
+            nextstate = S3;
         else if({botonA,botonB}==2'b10)
-            nextstate=S1;//posible salida
+            nextstate = S1; // posible salida
     end
     S3: begin
-        if({botonA,botonB}==2'b00)
-            nextstate=S0;//entro un auto
-            entrada=1; //contamos
-        else if({botonA,botonB}==2'b11)
-            nexstate=S2;//posible salida
+        if({botonA,botonB}==2'b00) begin
+            nextstate = S0; // entro un auto
+            entrada = 1; // contamos
+        end else if({botonA,botonB}==2'b11)
+            nextstate = S2; // posible salida
     end
-default: begin next_state=state; entrada=0; salida=0; end
-endcase
+    default: begin nextstate = state; entrada = 0; salida = 0; end
+    endcase
 end
 endmodule
