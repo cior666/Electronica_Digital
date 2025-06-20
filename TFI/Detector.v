@@ -21,7 +21,6 @@ module detector(
     input wire botonB,
     output reg entrada,
     output reg salida,
-    output reg [2:0] c
 );
 
 localparam S0=2'b00; //no detectamos pulsos
@@ -29,7 +28,7 @@ localparam S1=2'b10; // detectamos boton A
 localparam S2=2'b11; //detectamos botones A y B
 localparam S3=2'b01; //detectamos B
 
-reg [2:0] state, nextstate;
+reg [1:0] state, nextstate;
 
 always@(posedge clk or posedge reset)
 begin 
@@ -52,14 +51,14 @@ always @* begin
     S1: begin
         if ({botonA,botonB}==2'b11)
             nextstate=S2;//posible entrada
-        else if({botonA,botonB}==2'00)
+        else if({botonA,botonB}==2'b00)
             nextstate=S0;//confirmamos salida
             salida=1;//aumentamos contador
     end
     S2: begin
         if({botonA,botonB}==2'b01)
             nextstate=S3;
-        else if({botonA,botonB}==2'10)
+        else if({botonA,botonB}==2'b10)
             nextstate=S1;//posible salida
     end
     S3: begin
@@ -69,7 +68,7 @@ always @* begin
         else if({botonA,botonB}==2'b11)
             nexstate=S2;//posible salida
     end
-default: next_state=state;
+default: begin next_state=state; entrada=0; salida=0; end
 endcase
 end
 endmodule
