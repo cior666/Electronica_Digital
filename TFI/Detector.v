@@ -16,9 +16,8 @@ S0: no se detectan pulsos (salio un auto)
 */
 module detector(
     input wire clk,
-    input wire reset,
-    input wire botonA,
-    input wire botonB,
+    input botonA,
+    input botonB,
     output reg entrada,
     output reg salida
 );
@@ -28,14 +27,12 @@ localparam S1=2'b10; // detectamos boton A
 localparam S2=2'b11; //detectamos botones A y B
 localparam S3=2'b01; //detectamos B
 
+
 reg [1:0] state, nextstate;
 
-always@(posedge clk or posedge reset)
+always@(posedge clk)
 begin 
-    if(reset)
-        state <= S0;
-    else
-        state <= nextstate;
+    state <= nextstate;
 end
 
 always @* begin
@@ -66,7 +63,7 @@ always @* begin
     S3: begin
         if({botonA,botonB}==2'b00) begin
             nextstate = S0; // entro un auto
-            entrada = 1; // contamos
+            entrada = 1;
         end else if({botonA,botonB}==2'b11)
             nextstate = S2; // posible salida
     end
