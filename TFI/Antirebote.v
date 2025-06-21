@@ -6,12 +6,6 @@ module antirrebote(
     reg [19:0] contador;      
     reg salida_reg;
 
-initial begin
-    salida_limpia = 0;
-    salida_reg = 0;
-    contador = 0;
-end
-
 always @(posedge clk) begin
     if (senal_entrada != salida_reg) begin
         contador <= 20'b0; 

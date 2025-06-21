@@ -8,6 +8,7 @@ module TFI(
     output wire LED0
 );
 
+
 wire botonA_estable, botonB_estable;
 wire entrada, salida;
 wire [3:0] espacio;
