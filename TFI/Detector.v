@@ -71,3 +71,5 @@ always @* begin
     endcase
 end
 endmodule
+
+//posible solucion relentizar el clock y ver q onda
