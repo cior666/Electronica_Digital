@@ -1,18 +1,10 @@
-//Detectamos señales de entradadas de auto
+//Detectamos señales de entradas de auto
 /*
-ENTRADA
-S0: no se detectan pulsos
-S1: detectamos boton A
-S2:detectamos boton A y B
-S3: detectamos boton B (sin A) 
-S3->S0 Z=1
+SECUENCIA ENTRADA (auto entrando):
+inicio: A=0, B=0 → ENT1: A=1, B=0 → ENT2: A=1, B=1 → ENT3: A=0, B=1 → S0: A=0, B=0 (entrada=1)
 
-SALIDA
-S3:detectamos boton B
-S2: detectamos boton A y B
-S1: detectamos boton A
-S1->S0
-S0: no se detectan pulsos (salio un auto) 
+SECUENCIA SALIDA (auto saliendo):
+inicio: A=0, B=0 → SAL1: A=0, B=1 → SAL2: A=1, B=1 → SAL3: A=1, B=0 → S0: A=0, B=0 (salida=1)
 */
 module detector(
     input wire clk,
@@ -21,14 +13,20 @@ module detector(
     output reg entrada,
     output reg salida
 );
+// estados de la secuencia
+localparam inicio = 3'b000;     
+localparam ENT1 = 3'b001;     
+localparam ENT2 = 3'b010;     
+localparam ENT3 = 3'b011;     
+localparam SAL1 = 3'b100;     
+localparam SAL2 = 3'b101;     
+localparam SAL3 = 3'b110;     
 
-localparam S0=2'b00; //no detectamos pulsos
-localparam S1=2'b10; // detectamos boton A
-localparam S2=2'b11; //detectamos botones A y B
-localparam S3=2'b01; //detectamos B
-
-
-reg [1:0] state, nextstate;
+reg [2:0] state, nextstate;
+initial begin
+    state = inicio;
+    nextstate = inicio;
+end
 
 always@(posedge clk)
 begin 
@@ -36,40 +34,75 @@ begin
 end
 
 always @* begin
-    entrada = 0;
-    salida = 0;
-    nextstate = state;
+    entrada = 0;//inicializo
+    salida = 0; //inicializo
+    nextstate = state; //inicializo
     case(state)
-    S0: begin
-        if({botonA,botonB}==2'b10)
-           nextstate = S1; // posible entrada
-        else if({botonA,botonB}==2'b01)
-            nextstate = S3; // posible salida
+    //Entrada
+    inicio: begin 
+        if({botonA,botonB} == 2'b10)
+            nextstate = ENT1; //entrada
+        else if({botonA,botonB} == 2'b01)
+            nextstate = SAL1; //salida
     end
-    S1: begin
-        if ({botonA,botonB}==2'b11)
-            nextstate = S2; // posible entrada
-        else if({botonA,botonB}==2'b00) begin
-            nextstate = S0; // confirmamos salida
-            salida = 1; // aumentamos contador
+    ENT1: begin 
+        if({botonA,botonB} == 2'b11)
+            nextstate = ENT2;//entrada
+        else if({botonA,botonB} == 2'b00)
+            nextstate = inicio; //se sueltan los botones
+        else if({botonA,botonB} == 2'b01)
+            nextstate = SAL1; //salida
+    end
+    ENT2: begin 
+        if({botonA,botonB} == 2'b01)
+            nextstate = ENT3;//entrada
+        else if({botonA,botonB} == 2'b00)
+            nextstate = inicio; //se sueltan los botones
+        else if({botonA,botonB} == 2'b10)
+            nextstate = SAL3; //salida
+    end
+    ENT3: begin 
+        if({botonA,botonB} == 2'b00) begin
+            nextstate = inicio;
+            entrada = 1; // completa entrada
         end
+        else if({botonA,botonB} == 2'b11)
+            nextstate = SAL2; //salida
+        else if({botonA,botonB} == 2'b10)
+            nextstate = ENT1; //entrada
     end
-    S2: begin
-        if({botonA,botonB}==2'b01)
-            nextstate = S3;
-        else if({botonA,botonB}==2'b10)
-            nextstate = S1; // posible salida
+    //Salida
+    SAL1: begin 
+        if({botonA,botonB} == 2'b11)
+            nextstate = SAL2;
+        else if({botonA,botonB} == 2'b00)
+            nextstate = inicio; 
+        else if({botonA,botonB} == 2'b10)
+            nextstate = ENT1; 
     end
-    S3: begin
-        if({botonA,botonB}==2'b00) begin
-            nextstate = S0; // entro un auto
-            entrada = 1;
-        end else if({botonA,botonB}==2'b11)
-            nextstate = S2; // posible salida
+    SAL2: begin 
+        if({botonA,botonB} == 2'b10)
+            nextstate = SAL3;
+        else if({botonA,botonB} == 2'b00)
+            nextstate = inicio; 
+        else if({botonA,botonB} == 2'b01)
+            nextstate = ENT3; 
     end
-    default: begin nextstate = state; entrada = 0; salida = 0; end
+    SAL3: begin 
+        if({botonA,botonB} == 2'b00) begin
+            nextstate = inicio;
+            salida = 1; //salida completa
+        end
+        else if({botonA,botonB} == 2'b11)
+            nextstate = ENT2;
+        else if({botonA,botonB} == 2'b01)
+            nextstate = SAL1; 
+    end
+    default: begin 
+        nextstate = inicio; 
+        entrada = 0; 
+        salida = 0; 
+    end
     endcase
 end
 endmodule
-
-//posible solucion relentizar el clock y ver q onda

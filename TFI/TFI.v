@@ -7,12 +7,9 @@ module TFI(
     output wire LED1,
     output wire LED0
 );
-
-
 wire botonA_estable, botonB_estable;
 wire entrada, salida;
 wire [3:0] espacio;
-
 sensores sensores_instacia(
     .clk(CLK),
     .botonA(BTN1),
@@ -20,7 +17,6 @@ sensores sensores_instacia(
     .botonA_estable(botonA_estable),
     .botonB_estable(botonB_estable)
 );
-
 detector detector_instancia(
     .clk(CLK),
     .botonA(botonA_estable),
@@ -28,7 +24,6 @@ detector detector_instancia(
     .entrada(entrada),
     .salida(salida)
 );
-
 contar_autos contador_instancia(
     .clk(CLK),
     .entrada(entrada),

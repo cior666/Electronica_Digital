@@ -6,6 +6,10 @@ module contar_autos(
     output reg [3:0] espacio
 );
 
+initial begin
+    espacio = 0;
+end
+
 always @(posedge clk) begin
     if (entrada && !salida && espacio < 7)
         espacio <= espacio + 1;
