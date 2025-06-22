@@ -1,3 +1,6 @@
+/* INTEGRANTES
+Ciorciari Conrado 
+Da Silva Catela Justo*/
 //hacemos un modulo aparte para organizar mejor
 module sensores(
     input wire clk,

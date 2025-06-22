@@ -1,3 +1,6 @@
+/* INTEGRANTES
+Ciorciari Conrado 
+Da Silva Catela Justo*/
 `timescale 1ns / 1ps
 
 module TFI_tb;

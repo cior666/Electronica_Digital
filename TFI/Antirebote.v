@@ -1,3 +1,6 @@
+/* INTEGRANTES
+Ciorciari Conrado 
+Da Silva Catela Justo*/
 module antirrebote(
     input wire clk,
     input wire senal_entrada,  

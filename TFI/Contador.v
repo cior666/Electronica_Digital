@@ -1,3 +1,6 @@
+/* INTEGRANTES
+Ciorciari Conrado 
+Da Silva Catela Justo*/
 //CONTADOR
 module contar_autos(
     input wire clk,

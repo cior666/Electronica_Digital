@@ -1,3 +1,6 @@
+/* INTEGRANTES
+Ciorciari Conrado 
+Da Silva Catela Justo*/
 //Detectamos señales de entradas de auto
 /*
 SECUENCIA ENTRADA (auto entrando):

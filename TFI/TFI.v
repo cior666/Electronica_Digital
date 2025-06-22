@@ -1,3 +1,6 @@
+/* INTEGRANTES
+Ciorciari Conrado 
+Da Silva Catela Justo*/
 module TFI(
     input wire CLK,
     input BTN1,//BotonA
